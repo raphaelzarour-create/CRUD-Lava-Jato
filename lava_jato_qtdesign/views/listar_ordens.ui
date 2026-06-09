@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ListarOrdensPage</class>
+ <widget class="QWidget" name="ListarOrdensPage">
+  <layout class="QVBoxLayout" name="rootLayout">
+   <property name="leftMargin">
+    <number>28</number>
+   </property>
+   <property name="topMargin">
+    <number>28</number>
+   </property>
+   <property name="rightMargin">
+    <number>28</number>
+   </property>
+   <property name="bottomMargin">
+    <number>28</number>
+   </property>
+   <property name="spacing">
+    <number>14</number>
+   </property>
+   <item>
+    <widget class="QLabel" name="pageTitle">
+     <property name="text">
+      <string>Pesquisa de Ordens de Servico</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="card">
+     <layout class="QGridLayout" name="filterLayout">
+      <property name="leftMargin">
+       <number>16</number>
+      </property>
+      <property name="topMargin">
+       <number>16</number>
+      </property>
+      <property name="rightMargin">
+       <number>16</number>
+      </property>
+      <property name="bottomMargin">
+       <number>16</number>
+      </property>
+      <property name="horizontalSpacing">
+       <number>12</number>
+      </property>
+      <property name="verticalSpacing">
+       <number>10</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="labelCliente">
+        <property name="text">
+         <string>Cliente</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="txtFiltroCliente">
+        <property name="placeholderText">
+         <string>Nome do cliente</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="labelPlaca">
+        <property name="text">
+         <string>Placa</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QLineEdit" name="txtFiltroPlaca">
+        <property name="placeholderText">
+         <string>Placa do veiculo</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="labelStatus">
+        <property name="text">
+         <string>Status</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QComboBox" name="comboFiltroStatus">
+        <item>
+         <property name="text">
+          <string>Todos</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Aberta</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Em andamento</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Concluida</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Cancelada</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QCheckBox" name="chkFiltroPeriodo">
+        <property name="text">
+         <string>Filtrar por periodo</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <layout class="QHBoxLayout" name="dateLayout">
+        <item>
+         <widget class="QDateEdit" name="dateFiltroInicio">
+          <property name="calendarPopup">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QDateEdit" name="dateFiltroFim">
+          <property name="calendarPopup">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="2" column="0" colspan="4">
+       <layout class="QHBoxLayout" name="buttonLayout">
+        <item>
+         <widget class="QPushButton" name="btnPesquisarOrdens">
+          <property name="text">
+           <string>Pesquisar</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnLimparFiltros">
+          <property name="text">
+           <string>Limpar filtros</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="resultsLayout">
+     <item>
+      <widget class="QTableWidget" name="tableListarOrdens">
+       <property name="minimumSize">
+        <size>
+         <width>650</width>
+         <height>360</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QTextEdit" name="txtDetalhesOrdem">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>340</width>
+         <height>360</height>
+        </size>
+       </property>
+       <property name="placeholderText">
+        <string>Selecione uma ordem para ver os detalhes</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
+

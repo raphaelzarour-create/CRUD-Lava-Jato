@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>OrdemServicoPage</class>
+ <widget class="QWidget" name="OrdemServicoPage">
+  <layout class="QVBoxLayout" name="rootLayout">
+   <property name="leftMargin">
+    <number>28</number>
+   </property>
+   <property name="topMargin">
+    <number>28</number>
+   </property>
+   <property name="rightMargin">
+    <number>28</number>
+   </property>
+   <property name="bottomMargin">
+    <number>28</number>
+   </property>
+   <property name="spacing">
+    <number>14</number>
+   </property>
+   <item>
+    <widget class="QLabel" name="pageTitle">
+     <property name="text">
+      <string>Ordem de Servico</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="card">
+     <layout class="QGridLayout" name="formLayout">
+      <property name="leftMargin">
+       <number>16</number>
+      </property>
+      <property name="topMargin">
+       <number>16</number>
+      </property>
+      <property name="rightMargin">
+       <number>16</number>
+      </property>
+      <property name="bottomMargin">
+       <number>16</number>
+      </property>
+      <property name="horizontalSpacing">
+       <number>12</number>
+      </property>
+      <property name="verticalSpacing">
+       <number>10</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="labelCliente">
+        <property name="text">
+         <string>Cliente *</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="comboOrdemCliente"/>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="labelCarro">
+        <property name="text">
+         <string>Carro *</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QComboBox" name="comboOrdemCarro"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="labelServico">
+        <property name="text">
+         <string>Servico *</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QComboBox" name="comboOrdemServico"/>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="labelQuantidade">
+        <property name="text">
+         <string>Quantidade</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <layout class="QHBoxLayout" name="addItemLayout">
+        <item>
+         <widget class="QSpinBox" name="spinOrdemQuantidade">
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>99</number>
+          </property>
+          <property name="value">
+           <number>1</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnAdicionarItem">
+          <property name="text">
+           <string>Adicionar</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnRemoverItem">
+          <property name="text">
+           <string>Remover item</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="2" column="0" colspan="4">
+       <widget class="QTableWidget" name="tableOrdemItens">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>150</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="labelStatus">
+        <property name="text">
+         <string>Status</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QComboBox" name="comboOrdemStatus">
+        <item>
+         <property name="text">
+          <string>Aberta</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Em andamento</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Concluida</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Cancelada</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="QLabel" name="labelPagamento">
+        <property name="text">
+         <string>Pagamento</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="3">
+       <widget class="QComboBox" name="comboOrdemPagamento">
+        <item>
+         <property name="text">
+          <string>Pix</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Dinheiro</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Cartao de debito</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Cartao de credito</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Outro</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="labelObs">
+        <property name="text">
+         <string>Observacoes</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1" colspan="3">
+       <widget class="QTextEdit" name="txtOrdemObservacoes">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>80</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="labelTotal">
+        <property name="text">
+         <string>Total</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QLabel" name="lblOrdemTotal">
+        <property name="text">
+         <string>R$ 0,00</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="2" colspan="2">
+       <layout class="QHBoxLayout" name="buttonLayout">
+        <item>
+         <widget class="QPushButton" name="btnNovaOrdem">
+          <property name="text">
+           <string>Nova / Limpar</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnSalvarOrdem">
+          <property name="text">
+           <string>Salvar Ordem</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnExcluirOrdem">
+          <property name="text">
+           <string>Excluir Ordem</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="sectionTitle">
+     <property name="text">
+      <string>Ordens cadastradas</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTableWidget" name="tableOrdens">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>180</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
+

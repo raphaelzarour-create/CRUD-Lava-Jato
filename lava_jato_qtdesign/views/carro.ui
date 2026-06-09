@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CarroPage</class>
+ <widget class="QWidget" name="CarroPage">
+  <layout class="QVBoxLayout" name="rootLayout">
+   <property name="leftMargin">
+    <number>28</number>
+   </property>
+   <property name="topMargin">
+    <number>28</number>
+   </property>
+   <property name="rightMargin">
+    <number>28</number>
+   </property>
+   <property name="bottomMargin">
+    <number>28</number>
+   </property>
+   <property name="spacing">
+    <number>14</number>
+   </property>
+   <item>
+    <widget class="QLabel" name="pageTitle">
+     <property name="text">
+      <string>Carros</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="searchLayout">
+     <item>
+      <widget class="QLineEdit" name="txtBuscaCarro">
+       <property name="placeholderText">
+        <string>Pesquisar por cliente, placa, marca, modelo ou tipo</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnBuscarCarro">
+       <property name="text">
+        <string>Pesquisar</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QFrame" name="card">
+     <layout class="QGridLayout" name="formLayout">
+      <property name="leftMargin">
+       <number>16</number>
+      </property>
+      <property name="topMargin">
+       <number>16</number>
+      </property>
+      <property name="rightMargin">
+       <number>16</number>
+      </property>
+      <property name="bottomMargin">
+       <number>16</number>
+      </property>
+      <property name="horizontalSpacing">
+       <number>12</number>
+      </property>
+      <property name="verticalSpacing">
+       <number>10</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="labelCliente">
+        <property name="text">
+         <string>Cliente *</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="comboCarroCliente"/>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="labelPlaca">
+        <property name="text">
+         <string>Placa *</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QLineEdit" name="txtCarroPlaca"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="labelMarca">
+        <property name="text">
+         <string>Marca</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="txtCarroMarca"/>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="labelModelo">
+        <property name="text">
+         <string>Modelo</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QLineEdit" name="txtCarroModelo"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="labelAno">
+        <property name="text">
+         <string>Ano</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QSpinBox" name="spinCarroAno">
+        <property name="minimum">
+         <number>1950</number>
+        </property>
+        <property name="maximum">
+         <number>2100</number>
+        </property>
+        <property name="value">
+         <number>2026</number>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLabel" name="labelCor">
+        <property name="text">
+         <string>Cor</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QLineEdit" name="txtCarroCor"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="labelTipo">
+        <property name="text">
+         <string>Tipo</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QComboBox" name="comboCarroTipo">
+        <item>
+         <property name="text">
+          <string>Carro</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Moto</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>SUV</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Pickup</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Van</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="labelObs">
+        <property name="text">
+         <string>Observacoes</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1" colspan="3">
+       <widget class="QTextEdit" name="txtCarroObservacoes">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>78</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0" colspan="4">
+       <layout class="QHBoxLayout" name="buttonLayout">
+        <item>
+         <widget class="QPushButton" name="btnNovoCarro">
+          <property name="text">
+           <string>Novo / Limpar</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnSalvarCarro">
+          <property name="text">
+           <string>Salvar</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnExcluirCarro">
+          <property name="text">
+           <string>Excluir</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTableWidget" name="tableCarros"/>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
+
