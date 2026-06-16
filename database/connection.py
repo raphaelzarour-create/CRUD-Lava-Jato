@@ -18,6 +18,14 @@ DB_USER = os.getenv("LAVA_JATO_DB_USER", "root")
 DB_PASSWORD = os.getenv("LAVA_JATO_DB_PASSWORD", "")
 DB_NAME = os.getenv("LAVA_JATO_DB_NAME", "lava_jato")
 DB_CHARSET = "utf8mb4"
+REQUIRED_TABLES = (
+    "usuarios",
+    "clientes",
+    "carros",
+    "servicos",
+    "ordens_servico",
+    "ordem_servico_itens",
+)
 
 DatabaseError = pymysql.MySQLError
 IntegrityError = pymysql.err.IntegrityError
@@ -81,6 +89,22 @@ def _quoted_database_name() -> str:
     return f"`{DB_NAME.replace('`', '``')}`"
 
 
+def _tables_exist(conn: DatabaseConnection) -> bool:
+    for table_name in REQUIRED_TABLES:
+        row = conn.execute(
+            """
+            SELECT COUNT(*) AS total
+            FROM information_schema.tables
+            WHERE table_schema = ?
+              AND table_name = ?
+            """,
+            (DB_NAME, table_name),
+        ).fetchone()
+        if not row or int(row["total"]) == 0:
+            return False
+    return True
+
+
 def create_database_if_needed() -> None:
     try:
         with _admin_connection() as conn:
@@ -108,21 +132,10 @@ def initialize_database() -> None:
 
     create_database_if_needed()
     with get_connection() as conn:
+        if _tables_exist(conn):
+            return
         for statement in _schema_statements(SCHEMA_PATH.read_text(encoding="utf-8")):
             conn.execute(statement)
-
-
-def reset_database() -> None:
-    try:
-        with _admin_connection() as conn:
-            with conn.cursor() as cursor:
-                cursor.execute(f"DROP DATABASE IF EXISTS {_quoted_database_name()}")
-    except pymysql.MySQLError as exc:
-        raise RuntimeError(
-            "Nao foi possivel recriar o banco no MySQL/MariaDB do XAMPP. "
-            "Verifique se o MySQL esta iniciado."
-        ) from exc
-    initialize_database()
 
 
 def row_to_dict(row: dict[str, Any] | None) -> dict | None:

@@ -1,2 +1,0 @@
-"""Scripts auxiliares do projeto."""
-

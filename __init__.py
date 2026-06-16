@@ -1,2 +1,0 @@
-"""Sistema CRUD Lava Jato."""
-
