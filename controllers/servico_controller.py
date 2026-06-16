@@ -1,8 +1,6 @@
 from __future__ import annotations
 
-import sqlite3
-
-from database.connection import get_connection, row_to_dict, rows_to_dicts
+from database.connection import DatabaseError, IntegrityError, get_connection, row_to_dict, rows_to_dicts
 
 
 class ServicoController:
@@ -31,7 +29,7 @@ class ServicoController:
                     ),
                 )
                 return int(cursor.lastrowid)
-        except sqlite3.Error as exc:
+        except DatabaseError as exc:
             raise RuntimeError(f"Erro ao cadastrar servico: {exc}") from exc
 
     def update(self, servico_id: int, data: dict) -> None:
@@ -60,16 +58,16 @@ class ServicoController:
                         servico_id,
                     ),
                 )
-        except sqlite3.Error as exc:
+        except DatabaseError as exc:
             raise RuntimeError(f"Erro ao atualizar servico: {exc}") from exc
 
     def delete(self, servico_id: int) -> None:
         try:
             with get_connection() as conn:
                 conn.execute("DELETE FROM servicos WHERE id = ?", (servico_id,))
-        except sqlite3.IntegrityError as exc:
+        except IntegrityError as exc:
             raise ValueError("Nao e possivel excluir servico vinculado a ordens.") from exc
-        except sqlite3.Error as exc:
+        except DatabaseError as exc:
             raise RuntimeError(f"Erro ao excluir servico: {exc}") from exc
 
     def get(self, servico_id: int) -> dict | None:
@@ -94,4 +92,3 @@ class ServicoController:
         with get_connection() as conn:
             rows = conn.execute(query, tuple(params)).fetchall()
         return rows_to_dicts(rows)
-

@@ -1,8 +1,6 @@
 from __future__ import annotations
 
-import sqlite3
-
-from database.connection import get_connection, row_to_dict, rows_to_dicts
+from database.connection import DatabaseError, IntegrityError, get_connection, row_to_dict, rows_to_dicts
 
 
 class CarroController:
@@ -34,9 +32,9 @@ class CarroController:
                     ),
                 )
                 return int(cursor.lastrowid)
-        except sqlite3.IntegrityError as exc:
+        except IntegrityError as exc:
             raise ValueError("Ja existe um veiculo cadastrado com essa placa.") from exc
-        except sqlite3.Error as exc:
+        except DatabaseError as exc:
             raise RuntimeError(f"Erro ao cadastrar veiculo: {exc}") from exc
 
     def update(self, carro_id: int, data: dict) -> None:
@@ -68,18 +66,18 @@ class CarroController:
                         carro_id,
                     ),
                 )
-        except sqlite3.IntegrityError as exc:
+        except IntegrityError as exc:
             raise ValueError("Ja existe um veiculo cadastrado com essa placa.") from exc
-        except sqlite3.Error as exc:
+        except DatabaseError as exc:
             raise RuntimeError(f"Erro ao atualizar veiculo: {exc}") from exc
 
     def delete(self, carro_id: int) -> None:
         try:
             with get_connection() as conn:
                 conn.execute("DELETE FROM carros WHERE id = ?", (carro_id,))
-        except sqlite3.IntegrityError as exc:
+        except IntegrityError as exc:
             raise ValueError("Nao e possivel excluir veiculo vinculado a ordens.") from exc
-        except sqlite3.Error as exc:
+        except DatabaseError as exc:
             raise RuntimeError(f"Erro ao excluir veiculo: {exc}") from exc
 
     def get(self, carro_id: int) -> dict | None:
@@ -126,4 +124,3 @@ class CarroController:
                 (cliente_id,),
             ).fetchall()
         return rows_to_dicts(rows)
-

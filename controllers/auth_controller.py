@@ -3,9 +3,8 @@ from __future__ import annotations
 import hashlib
 import hmac
 import os
-import sqlite3
 
-from database.connection import get_connection, row_to_dict
+from database.connection import DatabaseError, IntegrityError, get_connection, row_to_dict
 
 
 class AuthController:
@@ -71,9 +70,9 @@ class AuthController:
                     (nome.strip(), usuario.strip(), senha_hash, perfil.strip()),
                 )
                 return int(cursor.lastrowid)
-        except sqlite3.IntegrityError as exc:
+        except IntegrityError as exc:
             raise ValueError("Ja existe um usuario com esse login.") from exc
-        except sqlite3.Error as exc:
+        except DatabaseError as exc:
             raise RuntimeError(f"Erro ao criar usuario: {exc}") from exc
 
     def ensure_default_admin(self) -> None:
@@ -85,4 +84,3 @@ class AuthController:
 
         if row is None:
             self.create_user("Administrador", "admin", "admin123", "Administrador")
-

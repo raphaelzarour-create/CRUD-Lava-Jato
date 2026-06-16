@@ -1,2 +1,2 @@
 PySide6>=6.8.0
-
+PyMySQL>=1.1.1

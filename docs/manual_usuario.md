@@ -2,7 +2,17 @@
 
 ## 1. Acesso
 
-Execute `python main.py` dentro da pasta `lava_jato_qtdesign`.
+Antes de abrir o sistema, inicie o `MySQL` no XAMPP Control Panel.
+
+Na pasta do projeto, execute:
+
+```bash
+pip install -r requirements.txt
+python scripts/seed.py
+python main.py
+```
+
+O comando `python scripts/seed.py` recria o banco `lava_jato` com dados de exemplo.
 
 Use:
 
@@ -78,4 +88,3 @@ Use os filtros:
 - periodo.
 
 Clique em uma ordem na tabela para ver os detalhes completos no painel lateral.
-

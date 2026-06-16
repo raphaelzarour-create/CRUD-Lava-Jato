@@ -16,7 +16,7 @@
 
 1. A aplicacao deve ser desktop e executar localmente.
 2. A interface deve usar Qt Widgets/PySide6 e arquivos `.ui` editaveis no Qt Designer.
-3. A persistencia deve usar SQLite por meio do modulo `sqlite3`.
+3. A persistencia deve usar MySQL/MariaDB pelo XAMPP, com driver `PyMySQL`.
 4. As queries devem usar parametros para reduzir risco de SQL injection.
 5. O codigo deve ser separado em camadas de banco, controllers, models e interface.
 6. Erros devem ser tratados com mensagens amigaveis ao usuario.
@@ -28,4 +28,3 @@
 - Carro sem cliente ou placa nao pode ser salvo.
 - Servico sem nome ou preco valido nao pode ser salvo.
 - Ordem sem cliente, carro ou pelo menos um servico nao pode ser salva.
-

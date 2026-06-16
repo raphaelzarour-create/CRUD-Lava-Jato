@@ -1,13 +1,16 @@
-# CRUD Lava Jato - Python + PySide6 + SQLite
+# CRUD Lava Jato - Python + PySide6 + MySQL/XAMPP
 
-Sistema desktop para gerenciamento de lava jato, feito com Python 3, Qt Widgets/PySide6, interfaces `.ui` editaveis no Qt Designer e banco SQLite local.
+Sistema desktop para gerenciamento de lava jato, feito com Python 3, Qt Widgets/PySide6, interfaces `.ui` editaveis no Qt Designer e banco MySQL/MariaDB pelo XAMPP.
 
 ## Como executar
 
-No terminal:
+1. Abra o XAMPP Control Panel.
+2. Inicie o servico `MySQL`.
+3. No terminal, dentro da pasta do projeto:
 
 ```bash
 pip install -r requirements.txt
+python scripts/seed.py
 python main.py
 ```
 
@@ -16,10 +19,28 @@ Login padrao:
 - Usuario: `admin`
 - Senha: `admin123`
 
-O arquivo `database/lava_jato.db` ja acompanha dados iniciais. Para recriar o banco:
+O script `python scripts/seed.py` recria e popula o banco `lava_jato` no MySQL/MariaDB. Use ele quando quiser voltar aos dados iniciais.
 
-```bash
+## Configuracao do banco
+
+Por padrao, o sistema usa a configuracao comum do XAMPP:
+
+- Host: `127.0.0.1`
+- Porta: `3306`
+- Usuario: `root`
+- Senha: vazia
+- Banco: `lava_jato`
+
+Se seu XAMPP estiver com outra configuracao, defina variaveis de ambiente antes de executar. No PowerShell:
+
+```powershell
+$env:LAVA_JATO_DB_HOST="127.0.0.1"
+$env:LAVA_JATO_DB_PORT="3306"
+$env:LAVA_JATO_DB_USER="root"
+$env:LAVA_JATO_DB_PASSWORD="sua_senha"
+$env:LAVA_JATO_DB_NAME="lava_jato"
 python scripts/seed.py
+python main.py
 ```
 
 ## Funcionalidades
@@ -31,6 +52,7 @@ python scripts/seed.py
 - Pesquisa de ordens por cliente, placa, status e periodo.
 - Mensagens amigaveis com `QMessageBox`.
 - Queries parametrizadas e camada de banco separada dos controllers.
+- Banco MySQL/MariaDB criado automaticamente no XAMPP.
 
 ## Estrutura
 
@@ -39,8 +61,7 @@ python scripts/seed.py
 |-- main.py
 |-- database/
 |   |-- connection.py
-|   |-- schema.sql
-|   `-- lava_jato.db
+|   `-- schema.sql
 |-- controllers/
 |-- models/
 |-- views/

@@ -12,12 +12,11 @@ from controllers.carro_controller import CarroController
 from controllers.cliente_controller import ClienteController
 from controllers.ordem_controller import OrdemController
 from controllers.servico_controller import ServicoController
-from database.connection import DB_PATH, initialize_database
+from database.connection import initialize_database
 
 
 def main() -> int:
-    if not DB_PATH.exists():
-        initialize_database()
+    initialize_database()
     AuthController().ensure_default_admin()
 
     auth = AuthController()
@@ -81,7 +80,7 @@ def main() -> int:
             [{"servico_id": servico_id, "quantidade": 2}],
         )
         ordem = ordem_controller.get_with_items(ordem_id)
-        assert ordem and ordem["valor_total"] == 100.0
+        assert ordem and float(ordem["valor_total"]) == 100.0
         assert len(ordem["itens"]) == 1
     finally:
         if ordem_id:
@@ -99,4 +98,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

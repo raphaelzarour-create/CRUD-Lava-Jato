@@ -1,2 +1,1 @@
-"""Camada de acesso ao banco SQLite."""
-
+"""Camada de acesso ao banco MySQL/MariaDB."""

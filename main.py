@@ -31,7 +31,7 @@ from controllers.carro_controller import CarroController
 from controllers.cliente_controller import ClienteController
 from controllers.ordem_controller import OrdemController
 from controllers.servico_controller import ServicoController
-from database.connection import DB_PATH, initialize_database
+from database.connection import initialize_database
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -46,10 +46,12 @@ def money(value: float | int | None) -> str:
     return formatted.replace(",", "X").replace(".", ",").replace("X", ".")
 
 
-def date_text(value: str | None) -> str:
+def date_text(value: object | None) -> str:
     if not value:
         return ""
-    return value[:10]
+    if hasattr(value, "strftime"):
+        return value.strftime("%Y-%m-%d")
+    return str(value)[:10]
 
 
 def load_ui(file_name: str):
@@ -860,15 +862,18 @@ class MainWindow:
 
 
 def ensure_database_ready() -> None:
-    if not DB_PATH.exists():
-        initialize_database()
+    initialize_database()
     AuthController().ensure_default_admin()
 
 
 def main() -> int:
-    ensure_database_ready()
     app = QApplication(sys.argv)
     apply_styles(app)
+    try:
+        ensure_database_ready()
+    except RuntimeError as exc:
+        QMessageBox.critical(None, "Banco de dados indisponivel", str(exc))
+        return 1
     login = LoginWindow()
     login.show()
     return app.exec()
@@ -876,4 +881,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

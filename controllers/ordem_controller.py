@@ -1,15 +1,15 @@
 from __future__ import annotations
 
-import sqlite3
 from datetime import datetime
+from typing import Any
 
-from database.connection import get_connection, row_to_dict, rows_to_dicts
+from database.connection import DatabaseError, get_connection, row_to_dict, rows_to_dicts
 
 
 class OrdemController:
     STATUS = ("Aberta", "Em andamento", "Concluida", "Cancelada")
 
-    def _normalize_items(self, conn: sqlite3.Connection, itens: list[dict]) -> list[dict]:
+    def _normalize_items(self, conn: Any, itens: list[dict]) -> list[dict]:
         normalized: list[dict] = []
         for item in itens:
             servico_id = int(item.get("servico_id") or 0)
@@ -61,7 +61,7 @@ class OrdemController:
             with get_connection() as conn:
                 normalized_items = self._normalize_items(conn, itens)
                 total = round(sum(item["subtotal"] for item in normalized_items), 2)
-                data_finalizacao = datetime.now().isoformat(timespec="seconds") if status == "Concluida" else None
+                data_finalizacao = datetime.now().strftime("%Y-%m-%d %H:%M:%S") if status == "Concluida" else None
 
                 cursor = conn.execute(
                     """
@@ -83,7 +83,7 @@ class OrdemController:
                 ordem_id = int(cursor.lastrowid)
                 self._insert_items(conn, ordem_id, normalized_items)
                 return ordem_id
-        except sqlite3.Error as exc:
+        except DatabaseError as exc:
             raise RuntimeError(f"Erro ao cadastrar ordem de servico: {exc}") from exc
 
     def update(self, ordem_id: int, data: dict, itens: list[dict]) -> None:
@@ -95,7 +95,7 @@ class OrdemController:
             with get_connection() as conn:
                 normalized_items = self._normalize_items(conn, itens)
                 total = round(sum(item["subtotal"] for item in normalized_items), 2)
-                data_finalizacao = datetime.now().isoformat(timespec="seconds") if status == "Concluida" else None
+                data_finalizacao = datetime.now().strftime("%Y-%m-%d %H:%M:%S") if status == "Concluida" else None
 
                 conn.execute(
                     """
@@ -117,10 +117,10 @@ class OrdemController:
                 )
                 conn.execute("DELETE FROM ordem_servico_itens WHERE ordem_id = ?", (ordem_id,))
                 self._insert_items(conn, ordem_id, normalized_items)
-        except sqlite3.Error as exc:
+        except DatabaseError as exc:
             raise RuntimeError(f"Erro ao atualizar ordem de servico: {exc}") from exc
 
-    def _insert_items(self, conn: sqlite3.Connection, ordem_id: int, itens: list[dict]) -> None:
+    def _insert_items(self, conn: Any, ordem_id: int, itens: list[dict]) -> None:
         conn.executemany(
             """
             INSERT INTO ordem_servico_itens
@@ -143,7 +143,7 @@ class OrdemController:
         try:
             with get_connection() as conn:
                 conn.execute("DELETE FROM ordens_servico WHERE id = ?", (ordem_id,))
-        except sqlite3.Error as exc:
+        except DatabaseError as exc:
             raise RuntimeError(f"Erro ao excluir ordem de servico: {exc}") from exc
 
     def list(self, search: str = "") -> list[dict]:
@@ -165,7 +165,7 @@ class OrdemController:
                 carros.marca,
                 carros.modelo,
                 carros.placa,
-                (carros.marca || ' ' || carros.modelo) AS carro_nome
+                CONCAT(carros.marca, ' ', carros.modelo) AS carro_nome
             FROM ordens_servico
             JOIN clientes ON clientes.id = ordens_servico.cliente_id
             JOIN carros ON carros.id = ordens_servico.carro_id
@@ -213,7 +213,7 @@ class OrdemController:
                     carros.placa,
                     carros.marca,
                     carros.modelo,
-                    (carros.marca || ' ' || carros.modelo) AS carro_nome
+                    CONCAT(carros.marca, ' ', carros.modelo) AS carro_nome
                 FROM ordens_servico
                 JOIN clientes ON clientes.id = ordens_servico.cliente_id
                 JOIN carros ON carros.id = ordens_servico.carro_id
@@ -233,7 +233,7 @@ class OrdemController:
                     carros.placa,
                     carros.marca,
                     carros.modelo,
-                    (carros.marca || ' ' || carros.modelo) AS carro_nome
+                    CONCAT(carros.marca, ' ', carros.modelo) AS carro_nome
                 FROM ordens_servico
                 JOIN clientes ON clientes.id = ordens_servico.cliente_id
                 JOIN carros ON carros.id = ordens_servico.carro_id
@@ -279,4 +279,3 @@ class OrdemController:
             "ordens_concluidas": 0,
             "faturamento_total": 0,
         }
-

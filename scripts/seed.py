@@ -8,13 +8,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from controllers.auth_controller import AuthController
-from database.connection import DB_PATH, initialize_database, get_connection
-
-
-def reset_database() -> None:
-    if DB_PATH.exists():
-        DB_PATH.unlink()
-    initialize_database()
+from database.connection import DB_NAME, get_connection, reset_database
 
 
 def seed() -> None:
@@ -95,8 +89,12 @@ def seed() -> None:
             itens,
         )
 
-    print(f"Banco criado e populado em: {DB_PATH}")
+    print(f"Banco MySQL/MariaDB criado e populado: {DB_NAME}")
 
 
 if __name__ == "__main__":
-    seed()
+    try:
+        seed()
+    except RuntimeError as exc:
+        print(f"Erro: {exc}")
+        raise SystemExit(1) from exc
