@@ -4,7 +4,6 @@ import sys
 from pathlib import Path
 
 from PySide6.QtCore import QFile, Qt, QDate
-from PySide6.QtGui import QIcon
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import (
     QApplication,
@@ -31,13 +30,12 @@ from controllers.carro_controller import CarroController
 from controllers.cliente_controller import ClienteController
 from controllers.ordem_controller import OrdemController
 from controllers.servico_controller import ServicoController
-from database.connection import initialize_database
+from database.connection import get_connection
 
 
 BASE_DIR = Path(__file__).resolve().parent
 VIEW_DIR = BASE_DIR / "views"
 ASSET_DIR = BASE_DIR / "assets"
-ICON_DIR = ASSET_DIR / "icons"
 
 
 def money(value: float | int | None) -> str:
@@ -151,7 +149,6 @@ class LoginWindow:
     def __init__(self) -> None:
         self.auth_controller = AuthController()
         self.window: QDialog = load_ui("login.ui")
-        self.window.setWindowIcon(QIcon(str(ICON_DIR / "car-wash.svg")))
         self.main_window: MainWindow | None = None
 
         self.txt_usuario = find(self.window, "txtUsuario", QLineEdit)
@@ -181,7 +178,6 @@ class MainWindow:
     def __init__(self, user: dict) -> None:
         self.user = user
         self.window = load_ui("dashboard.ui")
-        self.window.setWindowIcon(QIcon(str(ICON_DIR / "car-wash.svg")))
 
         self.cliente_controller = ClienteController()
         self.carro_controller = CarroController()
@@ -224,19 +220,6 @@ class MainWindow:
         return self.pages[name]
 
     def _setup_sidebar(self) -> None:
-        button_icons = {
-            "btnDashboard": "dashboard.svg",
-            "btnClientes": "user.svg",
-            "btnCarros": "car.svg",
-            "btnServicos": "tool.svg",
-            "btnOrdens": "clipboard.svg",
-            "btnListarOrdens": "search.svg",
-            "btnSair": "logout.svg",
-        }
-        for object_name, icon_name in button_icons.items():
-            button = find(self.window, object_name, QPushButton)
-            button.setIcon(QIcon(str(ICON_DIR / icon_name)))
-
         find(self.window, "btnDashboard", QPushButton).clicked.connect(lambda: self.show_page("dashboard"))
         find(self.window, "btnClientes", QPushButton).clicked.connect(lambda: self.show_page("clientes"))
         find(self.window, "btnCarros", QPushButton).clicked.connect(lambda: self.show_page("carros"))
@@ -862,8 +845,14 @@ class MainWindow:
 
 
 def ensure_database_ready() -> None:
-    initialize_database()
-    AuthController().ensure_default_admin()
+    try:
+        with get_connection() as conn:
+            conn.execute("SELECT id FROM usuarios LIMIT 1").fetchone()
+    except Exception as exc:
+        raise RuntimeError(
+            "Nao foi possivel acessar o banco. Abra o XAMPP, ligue o MySQL "
+            "e importe o arquivo database/schema.sql pelo phpMyAdmin."
+        ) from exc
 
 
 def main() -> int:

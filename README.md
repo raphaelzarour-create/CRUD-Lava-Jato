@@ -47,7 +47,6 @@ python main.py
 assets/       icones e estilo
 controllers/  regras das telas
 database/     conexao e SQL do banco
-models/       modelos de dados
 views/        telas feitas em .ui
 main.py       arquivo principal
 ```
